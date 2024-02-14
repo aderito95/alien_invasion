@@ -10,7 +10,7 @@ class AlienInvasion:
         pygame.init()
         self.clock = pygame.time.Clock()
 
-        self.set_screen_resolution()
+        self.screen = AlienInvasion.get_screen_resolution()
 
         pygame.display.set_caption("Alien invasion")
         # Imposta il colore di sfondo
@@ -18,7 +18,6 @@ class AlienInvasion:
 
     def run_game(self):
         """Start the main loop for the game"""
-        # Calcola l'altezza della barra del titolo dopo l'inizializzazione della finestra
 
         while True:
             # Watch for keyboard and mouse events.
@@ -32,19 +31,18 @@ class AlienInvasion:
             # Pygame will do its best to make the loop run exactly 60 times per second
             self.clock.tick(60)
 
-    def set_screen_resolution(self):
+    @staticmethod
+    def get_screen_resolution():
         """Ottieni la risoluzione dello schermo principale"""
         screen_modes = pygame.display.list_modes(0)
         if screen_modes:
-            self.screen_width, self.screen_height = screen_modes[0]
+            screen_width, screen_height = screen_modes[0]
         else:
             # Se non è disponibile alcuna informazione sulla risoluzione dello schermo, usa valori predefiniti
-            self.screen_width, self.screen_height = 800, 600
+            screen_width, screen_height = 800, 600
 
         # Imposta la dimensione della finestra di gioco in base alla dimensione dello schermo
-        self.screen = pygame.display.set_mode(
-            (self.screen_width, self.screen_height - 60)
-        )
+        return pygame.display.set_mode((screen_width, screen_height - 60))
 
 
 # This code block will only run if this file is called directly
