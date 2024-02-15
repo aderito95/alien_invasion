@@ -16,8 +16,8 @@ class AlienInvasion:
 
         self.screen = self.settings.screen
         pygame.display.set_caption("Alien invasion")
-
         self.ship = Ship(self)
+        print(self.ship.rect.bottom)
 
     def run_game(self):
         """Start the main loop for the game"""
@@ -31,9 +31,22 @@ class AlienInvasion:
     # helper method: does work inside a class but it isn't mean to be used  by code outside the class
     def _check_events(self):
         """Respond to keypresses and mouse events"""
+        self.move_ticker = 0
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_RIGHT]:
+            self.ship.rect.x += 1
+        elif keys[pygame.K_LEFT]:
+            self.ship.rect.x -= 1
+        elif keys[pygame.K_UP]:
+            self.ship.rect.y -= 1
+        elif keys[pygame.K_DOWN]:
+            if self.ship.rect.bottom == self.screen.get_height():
+                pass
+            else:
+                self.ship.rect.y += 1
 
     def _update_screen(self):
         """Update images on the screen, and flip to the new screen."""
