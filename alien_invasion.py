@@ -35,8 +35,11 @@ class AlienInvasion:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
+
         keys = pygame.key.get_pressed()
-        if keys[pygame.K_RIGHT]:
+        if keys[pygame.K_ESCAPE]:
+            sys.exit()
+        elif keys[pygame.K_RIGHT]:
             self.ship.rect.x += 1
         elif keys[pygame.K_LEFT]:
             self.ship.rect.x -= 1
