@@ -2,6 +2,7 @@ import sys
 import pygame
 
 from settings import Settings
+from ship import Ship
 
 
 class AlienInvasion:
@@ -12,11 +13,11 @@ class AlienInvasion:
         pygame.init()
         self.clock = pygame.time.Clock()
         self.settings = Settings()
-        self.screen = self.settings.screen
 
+        self.screen = self.settings.screen
         pygame.display.set_caption("Alien invasion")
-        # Imposta il colore di sfondo
-        self.bg_color = self.settings.bg_color
+
+        self.ship = Ship(self)
 
     def run_game(self):
         """Start the main loop for the game"""
@@ -27,7 +28,8 @@ class AlienInvasion:
                 if event.type == pygame.QUIT:
                     sys.exit()
             # Redraw the screen during each pass through the loop
-            self.screen.fill(self.bg_color)
+            self.screen.fill(self.settings.bg_color)
+            self.ship.blitme()
             # Make the most recently drawn screen visible
             pygame.display.flip()
             # Pygame will do its best to make the loop run exactly 60 times per second
