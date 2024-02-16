@@ -17,6 +17,9 @@ class AlienInvasion:
         self.screen = self.settings.screen
         pygame.display.set_caption("Alien invasion")
         self.ship = Ship(self)
+        print(
+            f"right x: {self.ship.rect.right}\nscreen width: {self.screen.get_width()}\nship speed: {self.ship.speed}\ndifference: {(2560-1910)%50}\n"
+        )
 
     def run_game(self):
         """Start the main loop for the game"""
@@ -30,19 +33,16 @@ class AlienInvasion:
     # helper method: does work inside a class but it isn't mean to be used  by code outside the class
     def _check_events(self):
         """Respond to keypresses and mouse events"""
-
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
 
         keys = pygame.key.get_pressed()
+
         if keys[pygame.K_ESCAPE]:
             sys.exit()
         elif keys[pygame.K_RIGHT]:
-            if self.ship.rect.right > self.screen.get_width():
-                pass
-            else:
-                self.ship.rect.x += self.ship.speed
+            self._check_for_outer_collisions()
         elif keys[pygame.K_LEFT]:
             if self.ship.rect.left < 0:
                 pass
@@ -66,6 +66,14 @@ class AlienInvasion:
         self.ship.blitme()
         # Make the most recently drawn screen visible
         pygame.display.flip()
+
+    def _check_for_outer_collisions(self):
+        if (self.screen.get_width() - self.ship.rect.right) / self.ship.speed > 0:
+            self.ship.rect.x += self.ship.speed
+        else:
+            self.ship.speed = self.screen.get_width() - self.ship.rect.right
+            self.ship.rect.x += self.ship.speed
+            self.ship.speed = self.ship.default_speed
 
 
 # This code block will only run if this file is called directly
