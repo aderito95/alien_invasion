@@ -30,7 +30,7 @@ class AlienInvasion:
     # helper method: does work inside a class but it isn't mean to be used  by code outside the class
     def _check_events(self):
         """Respond to keypresses and mouse events"""
-        self.move_ticker = 0
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
@@ -42,22 +42,22 @@ class AlienInvasion:
             if self.ship.rect.right > self.screen.get_width():
                 pass
             else:
-                self.ship.rect.x += 2
+                self.ship.rect.x += self.ship.speed
         elif keys[pygame.K_LEFT]:
             if self.ship.rect.left < 0:
                 pass
             else:
-                self.ship.rect.x -= 2
+                self.ship.rect.x -= self.ship.speed
         elif keys[pygame.K_UP]:
             if self.ship.rect.top < 0:
                 pass
             else:
-                self.ship.rect.y -= 2
+                self.ship.rect.y -= self.ship.speed
         elif keys[pygame.K_DOWN]:
-            if self.ship.rect.bottom == self.screen.get_height():
+            if self.ship.rect.bottom > self.screen.get_height():
                 pass
             else:
-                self.ship.rect.y += 2
+                self.ship.rect.y += self.ship.speed
 
     def _update_screen(self):
         """Update images on the screen, and flip to the new screen."""
