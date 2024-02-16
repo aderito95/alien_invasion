@@ -44,7 +44,10 @@ class AlienInvasion:
         elif keys[pygame.K_LEFT]:
             self.ship.rect.x -= 1
         elif keys[pygame.K_UP]:
-            self.ship.rect.y -= 1
+            if self.ship.rect.top < 0:
+                pass
+            else:
+                self.ship.rect.y -= 1
         elif keys[pygame.K_DOWN]:
             if self.ship.rect.bottom == self.screen.get_height():
                 pass
