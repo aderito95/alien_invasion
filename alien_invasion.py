@@ -17,7 +17,6 @@ class AlienInvasion:
         self.screen = self.settings.screen
         pygame.display.set_caption("Alien invasion")
         self.ship = Ship(self)
-        print(self.ship.rect.bottom)
 
     def run_game(self):
         """Start the main loop for the game"""
@@ -40,19 +39,25 @@ class AlienInvasion:
         if keys[pygame.K_ESCAPE]:
             sys.exit()
         elif keys[pygame.K_RIGHT]:
-            self.ship.rect.x += 1
+            if self.ship.rect.right > self.screen.get_width():
+                pass
+            else:
+                self.ship.rect.x += 2
         elif keys[pygame.K_LEFT]:
-            self.ship.rect.x -= 1
+            if self.ship.rect.left < 0:
+                pass
+            else:
+                self.ship.rect.x -= 2
         elif keys[pygame.K_UP]:
             if self.ship.rect.top < 0:
                 pass
             else:
-                self.ship.rect.y -= 1
+                self.ship.rect.y -= 2
         elif keys[pygame.K_DOWN]:
             if self.ship.rect.bottom == self.screen.get_height():
                 pass
             else:
-                self.ship.rect.y += 1
+                self.ship.rect.y += 2
 
     def _update_screen(self):
         """Update images on the screen, and flip to the new screen."""
