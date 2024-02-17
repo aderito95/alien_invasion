@@ -17,9 +17,6 @@ class AlienInvasion:
         self.screen = self.settings.screen
         pygame.display.set_caption("Alien invasion")
         self.ship = Ship(self)
-        print(
-            f"right x: {self.ship.rect.right}\nscreen width: {self.screen.get_width()}\nship speed: {self.ship.speed}\ndifference: {(2560-1910)%50}\n"
-        )
 
     def run_game(self):
         """Start the main loop for the game"""
@@ -42,22 +39,13 @@ class AlienInvasion:
         if keys[pygame.K_ESCAPE]:
             sys.exit()
         elif keys[pygame.K_RIGHT]:
-            self._check_for_outer_collisions()
+            self.ship.rect.x += self._calculate_ship_speed(direction="RIGHT")
         elif keys[pygame.K_LEFT]:
-            if self.ship.rect.left < 0:
-                pass
-            else:
-                self.ship.rect.x -= self.ship.speed
+            self.ship.rect.x -= self._calculate_ship_speed(direction="LEFT")
         elif keys[pygame.K_UP]:
-            if self.ship.rect.top < 0:
-                pass
-            else:
-                self.ship.rect.y -= self.ship.speed
+            self.ship.rect.y -= self._calculate_ship_speed(direction="UP")
         elif keys[pygame.K_DOWN]:
-            if self.ship.rect.bottom > self.screen.get_height():
-                pass
-            else:
-                self.ship.rect.y += self.ship.speed
+            self.ship.rect.y += self._calculate_ship_speed(direction="DOWN")
 
     def _update_screen(self):
         """Update images on the screen, and flip to the new screen."""
@@ -67,13 +55,27 @@ class AlienInvasion:
         # Make the most recently drawn screen visible
         pygame.display.flip()
 
-    def _check_for_outer_collisions(self):
-        if (self.screen.get_width() - self.ship.rect.right) / self.ship.speed > 0:
-            self.ship.rect.x += self.ship.speed
-        else:
-            self.ship.speed = self.screen.get_width() - self.ship.rect.right
-            self.ship.rect.x += self.ship.speed
-            self.ship.speed = self.ship.default_speed
+    def _calculate_ship_speed(self, direction):
+        if direction == "RIGHT":
+            if (self.screen.get_width() - self.ship.rect.right) / self.ship.speed > 0:
+                return self.ship.speed
+            else:
+                return self.screen.get_width() - self.ship.rect.right
+        elif direction == "LEFT":
+            if self.ship.rect.left / self.ship.speed > 0:
+                return self.ship.speed
+            else:
+                return self.ship.rect.left
+        elif direction == "UP":
+            if self.ship.rect.top / self.ship.speed > 0:
+                return self.ship.speed
+            else:
+                return self.ship.rect.top
+        elif direction == "DOWN":
+            if (self.screen.get_height() - self.ship.rect.bottom) / self.ship.speed > 0:
+                return self.ship.speed
+            else:
+                return self.screen.get_height() - self.ship.rect.bottom
 
 
 # This code block will only run if this file is called directly
