@@ -9,3 +9,4 @@ class Settings:
         # Screen settings
         self.bg_color = (230, 230, 230)
         self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+        self.bullets_allowed = 3

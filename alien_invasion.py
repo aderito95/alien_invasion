@@ -15,6 +15,7 @@ class AlienInvasion:
         self.clock = pygame.time.Clock()
         self.settings = Settings()
         self.bullets = pygame.sprite.Group()
+
         self.screen = self.settings.screen
         pygame.display.set_caption("Alien invasion")
         self.ship = Ship(self)
@@ -23,8 +24,7 @@ class AlienInvasion:
         """Start the main loop for the game"""
         while True:
             self._check_events()
-            # the group automatically calls update() for each sprite in the group
-            self.bullets.update()
+            self._update_bullets()
             # redraw the screen
             self._update_screen()
             # Pygame will do its best to make the loop run exactly 60 times per second
@@ -67,7 +67,17 @@ class AlienInvasion:
 
     def _fire_bullets(self):
         """Create a new bullet and add it to the bullets group"""
-        self.bullets.add(Bullet(self))
+        if len(self.bullets) < self.settings.bullets_allowed:
+            self.bullets.add(Bullet(self))
+
+    def _update_bullets(self):
+        """Update position of bullets and get rid of old bullets"""
+        # the group automatically calls update() for each sprite in the group
+        self.bullets.update()
+        # Get rid of bullets that have disappeared
+        for bullet in self.bullets.copy():
+            if bullet.rect.bottom <= 0:
+                self.bullets.remove(bullet)
 
 
 # This code block will only run if this file is called directly
