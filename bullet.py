@@ -7,7 +7,7 @@ class Bullet(Sprite):
 
     def __init__(self, ai_game):
         super().__init__()
-        self.speed = 30.0
+        self.speed = 5.0
         self.width = 3
         self.height = 15
         self.color = (60, 60, 60)
@@ -15,7 +15,7 @@ class Bullet(Sprite):
         self.screen = ai_game.screen
 
         # Create a bullet rect at (0,0) and then set correct position
-        self.rect = pygame.Rect(0, 0, 3, 20)
+        self.rect = pygame.Rect(0, 0, self.width, self.height)
         """self.image = pygame.transform.scale(
             pygame.image.load("./images/bullet.png"), (100, 100)
         )
