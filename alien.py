@@ -13,7 +13,7 @@ class Alien(Sprite):
         self.screen = ai_game.screen
         self.speed = 1
 
-        self.drop_speed = 100.0
+        self.drop_speed = 10.0
         self.settings = ai_game.settings
 
         # Load the alien image and set its rect attribute
