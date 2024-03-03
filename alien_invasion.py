@@ -92,6 +92,7 @@ class AlienInvasion:
             self.stats.reset_stats()
             self.sb.prep_score()
             self.sb.prep_level()
+            self.sb.prep_ships()
             self.game_active = True
 
             self.music.play_music()
@@ -114,7 +115,7 @@ class AlienInvasion:
         alien = Alien(self)
         alien_width, alien_height = alien.rect.size
 
-        current_x, current_y = alien_width, alien_height
+        current_x, current_y = alien_width, alien_height * 2
 
         while current_y < self.screen.get_height() - 3 * alien_height:
             while current_x < self.settings.screen.get_width() - 2 * alien_width:
@@ -185,7 +186,7 @@ class AlienInvasion:
         # Remove any bullets and aliens that have collided
         # Check for any bullets that have hit aliens
         # If so, get rid of the bullet and the alien
-        collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, 1, 1)
+        collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, 0, 1)
         if collisions:
             self.music.crash()
             for aliens in collisions.values():
@@ -201,6 +202,11 @@ class AlienInvasion:
             # Increase level
             self.stats.level += 1
             self.sb.prep_level()
+            self.music.win()
+            self.music.pause_music()
+            sleep(2)
+            self.music.play_music()
+            self.ship.center_ship()
 
     def _update_aliens(self):
         """Update the positions of all aliens in the fleet"""
@@ -215,10 +221,12 @@ class AlienInvasion:
 
     def _ship_hit(self):
         """Respond to the ship being hit by an alien"""
+        self.music.ship_explosion()
         if self.stats.ships_left > 0:
 
-            # Decrement ships_left
+            # Decrement ships_left and update scoreboard
             self.stats.ships_left -= 1
+            self.sb.prep_ships()
 
             # Get rid of any remaining bullets and aliens
             self.bullets.empty()
@@ -229,7 +237,7 @@ class AlienInvasion:
             self.ship.center_ship()
 
             # Pause
-            sleep(0.5)
+            sleep(2)
         else:
             self.game_active = False
             pygame.mouse.set_visible(True)
