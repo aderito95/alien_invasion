@@ -17,7 +17,6 @@ class Ship:
         self.rect.midbottom = self.screen_rect.midbottom
         self.x = float(self.rect.x)
         self.y = float(self.rect.y)
-        self.speed = 15.0
 
     def blitme(self):
         """Draw the ship at its current location"""
@@ -25,23 +24,23 @@ class Ship:
 
     def update(self, ai, direction):
         if direction == "RIGHT":
-            if (ai.screen.get_width() - self.rect.right) / self.speed > 0:
-                self.x += self.speed
+            if (ai.screen.get_width() - self.rect.right) / ai.settings.ship_speed > 0:
+                self.x += ai.settings.ship_speed
             else:
                 self.x += ai.screen.get_width() - self.rect.right
         elif direction == "LEFT":
-            if self.rect.left / self.speed > 0:
-                self.x -= self.speed
+            if self.rect.left / ai.settings.ship_speed > 0:
+                self.x -= ai.settings.ship_speed
             else:
                 self.x -= self.rect.left
         elif direction == "UP":
-            if self.rect.top / self.speed > 0:
-                self.y -= self.speed
+            if self.rect.top / ai.settings.ship_speed > 0:
+                self.y -= ai.settings.ship_speed
             else:
                 self.y -= self.rect.top
         elif direction == "DOWN":
-            if (ai.screen.get_height() - self.rect.bottom) / self.speed > 0:
-                self.y += self.speed
+            if (ai.screen.get_height() - self.rect.bottom) / ai.settings.ship_speed > 0:
+                self.y += ai.settings.ship_speed
             else:
                 self.y += ai.screen.get_height() - self.rect.bottom
         self.rect.x = self.x

@@ -7,7 +7,7 @@ class Bullet(Sprite):
 
     def __init__(self, ai_game):
         super().__init__()
-        self.speed = 5.0
+        self.settings = ai_game.settings
         self.width = 3
         self.height = 15
         self.color = (60, 60, 60)
@@ -27,7 +27,7 @@ class Bullet(Sprite):
 
     def update(self):
         """Move the bullet up to the screen"""
-        self.y -= self.speed
+        self.y -= self.settings.bullet_speed
         # Update the rect position
         self.rect.y = self.y
 

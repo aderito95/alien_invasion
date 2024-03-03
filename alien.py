@@ -11,7 +11,7 @@ class Alien(Sprite):
         """Initialize the alien and set its starting position"""
         super().__init__()
         self.screen = ai_game.screen
-        self.speed = 1
+        self.settings = ai_game.settings
 
         self.drop_speed = 10.0
         self.settings = ai_game.settings
@@ -29,7 +29,7 @@ class Alien(Sprite):
 
     def update(self):
         """Move the alien to the right"""
-        self.x += self.speed * self.settings.fleet_direction
+        self.x += self.settings.alien_speed * self.settings.fleet_direction
         self.rect.x = self.x
 
     def check_edges(self):
