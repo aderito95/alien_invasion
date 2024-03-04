@@ -1,5 +1,7 @@
 import pygame.font
 from pygame.sprite import Group
+from pathlib import Path
+import json
 
 from ship import Ship
 
@@ -14,12 +16,14 @@ class Scoreboard:
         self.screen_rect = ai_game.screen.get_rect()
         self.settings = ai_game.settings
         self.stats = ai_game.stats
+        self.highscore_path = Path("high_score.json")
 
         # Font settings for scoring information
         self.text_color = (30, 30, 30)
         self.font = pygame.font.SysFont(None, 48)
 
         # Prepare the initial score image
+        self.load_high_score()
         self.prep_score()
         self.prep_high_score()
         self.prep_level()
@@ -51,6 +55,9 @@ class Scoreboard:
         self.high_score_rect = self.high_score_image.get_rect()
         self.high_score_rect.centerx = self.screen_rect.centerx
         self.high_score_rect.top = self.score_rect.top
+
+        high_score_str = f"{high_score:,}"
+        self.write_high_score()
 
     def prep_level(self):
         """Turn the level into a rendered image"""
@@ -84,3 +91,12 @@ class Scoreboard:
         if self.stats.score > self.stats.high_score:
             self.stats.high_score = self.stats.score
             self.prep_high_score()
+
+    def write_high_score(self):
+        """Writes to a file the highest score"""
+        high_score = json.dumps(self.stats.high_score)
+        self.highscore_path.write_text(high_score)
+
+    def load_high_score(self):
+        if self.highscore_path.exists():
+            self.stats.high_score = int(self.highscore_path.read_text())
